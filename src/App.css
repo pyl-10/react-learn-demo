@@ -1,0 +1,114 @@
+/* 背景大模块 */
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  text-align: center;
+  /* gap的用法：用来设置子项目网格中行与列的空隙 */
+  gap: 1rem;
+}
+
+/* logo + 标题区块 */
+.App-logo {
+  height: 40vmin;
+  height: 80%;
+  pointer-events: none;
+}
+
+/* 动画的用法？ */
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  /* flex:1 flex-grow:1 flex-shrink:1 flex-basis:0 */
+  /*       多余空间分配权重为1，溢出空间平均分，占用大小，看width设置 */
+  flex: 1;
+  /* 上1rem 右1rem 下0 左1rem */
+  margin: 1rem 1rem 0;
+  border-radius: 1rem;
+  background-color: #282c34;
+  /* min-height: 100vh; */
+  min-height: 5rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  /* vmin？ */
+  font-size: calc(10px + 2vmin);
+}
+
+/* 看板区块 */
+.kanban-board {
+  /* flex:1 flex-grow:1 flex-shrink:1 flex-basis:0 */
+  /*       多余空间分配权重为10，溢出空间平均分，占用大小，看width设置 */
+  flex: 10;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  /* 上1rem 右1rem 下0 左1rem */
+  margin: 0 1rem 1rem;
+}
+
+.column-todo {
+  background-color: #c9af97;
+}
+.column-ongoing {
+  background-color: #ffe799;
+}
+.column-done {
+  background-color: #c0e8ba;
+}
+
+/* 看板里面的小组块模块 */
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  border-radius: 1rem;
+  flex: 1;
+}
+
+.kanban-column > h2 {
+  margin: 0.6rem 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid gray;
+}
+
+.kanban-column > ul {
+  /* flex 属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto */
+  /* flex:1 flex-grow:1 flex-shrink:1 flex-basis:0 */
+  /*       多余空间分配权重为1，溢出空间平均分，占用大小，看width设置 */
+  flex: 1;
+  /* 分配子项目的占用空间 */
+  flex-basis: 0;
+  overflow: auto;
+  margin: 1rem;
+  /* 为什么一定要设置padding为0，不设置padding为40多 */
+  padding: 0;
+  /* 由浏览器定夺，如果内容被修剪，就会显示滚动条 */
+}
+
+/* 看片模块 */
+.kanban-card {
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid gray;
+  border-radius: 1rem;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  text-align: left;
+}
+
+.card-title {
+  min-height: 3rem;
+}
+
+.card-status {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #333;
+}
