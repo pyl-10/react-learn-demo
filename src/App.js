@@ -115,13 +115,13 @@ function App() {
         }>
           {showAdd && <NewCard onSubmit={handleSubmit} />}
           {/* 遍历数组中的对象，作为参数传给卡片组件 */}
-          {todoList.map(props => <KanbanCard {...props} />)}
+          {todoList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
         <KanbanColumn className="column-ongoing" title="进行中">
-          {ongoingList.map(props => <KanbanCard {...props} />)}
+          {ongoingList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
         <KanbanColumn className="column-done" title="已完成">
-          {doneList.map(props => <KanbanCard {...props} />)}
+          {doneList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
       </KanbanBoard>
     </div>
