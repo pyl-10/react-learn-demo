@@ -1,28 +1,28 @@
 import logo from './logo.svg';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import './App.css';
 
 const todoList = [
-  { title: "开发任务-1", status: "23-03-17 17:18" },
-  { title: "开发任务-3", status: "23-03-17 17:18" },
-  { title: "开发任务-4", status: "23-03-17 17:18" },
-  { title: "测试任务-3", status: "23-03-17 17:18" },
+  { title: "开发任务-1", status: "2023-03-17 17:18" },
+  { title: "开发任务-3", status: "2022-03-17 17:18" },
+  { title: "开发任务-4", status: "2023-03-17 17:18" },
+  { title: "测试任务-3", status: "2023-03-7 17:18" },
 ]
 
 const ongoingList = [
-  { title: "开发任务-2", status: "23-03-17 17:18" },
-  { title: "开发任务-6", status: "23-03-17 17:18" },
-  { title: "测试任务-2", status: "23-03-17 17:18" },
+  { title: "开发任务-2", status: "2023-01-17 17:18" },
+  { title: "开发任务-6", status: "2023-03-17 17:18" },
+  { title: "测试任务-2", status: "2023-02-17 17:18" },
 ]
 
 const doneList = [
-  { title: "开发任务-7", status: "23-03-17 17:18" },
-  { title: "开发任务-8", status: "23-03-17 17:18" },
-  { title: "开发任务-9", status: "23-03-17 17:18" },
-  { title: "开发任务-5", status: "23-03-17 17:18" },
-  { title: "测试任务-1", status: "23-03-17 17:18" },
+  { title: "开发任务-7", status: "2022-03-17 17:18" },
+  { title: "开发任务-8", status: "2021-03-17 17:18" },
+  { title: "开发任务-9", status: "2020-03-17 17:18" },
+  { title: "开发任务-5", status: "2023-01-17 17:18" },
+  { title: "测试任务-1", status: "2023-02-17 17:18" },
 ]
 
 // board组件
@@ -107,8 +107,34 @@ const kanbanCardTitleStyles = css`
   min-height: 3rem;
 `
 
+const MINUTE = 60 * 1000
+const HOUR = 60 * MINUTE
+const DAY = 24 * HOUR
+const UPDATE_INTERVAL = MINUTE
 //  看板-卡片 组件
 const KanbanCard = ({ title, status }) => {
+  const [displayTime, setdisplayTime] = useState(status)
+  useEffect(() => {
+    const updateDisplayTime = () => {
+      const timePassed = new Date() - new Date(status)
+      let relativeTime = "刚刚"
+      if (MINUTE <= timePassed && timePassed < HOUR) {
+        relativeTime = `${Math.ceil(timePassed / MINUTE)}分钟前`
+      } else if (HOUR <= timePassed && timePassed < DAY) {
+        relativeTime = `${Math.ceil(timePassed / HOUR)}小时前`
+      } else if (DAY <= timePassed) {
+        relativeTime = `${Math.ceil(timePassed / DAY)}天前`
+      }
+      setdisplayTime(relativeTime)
+    }
+    const intervalId = setInterval(updateDisplayTime, UPDATE_INTERVAL)
+    updateDisplayTime()
+
+    return function cleanup() {
+      clearInterval(intervalId)
+    }
+  }, [status])
+
   return (
     <li css={kanbanCardStyles}>
       <div css={kanbanCardTitleStyles}>{title}</div>
@@ -116,7 +142,7 @@ const KanbanCard = ({ title, status }) => {
         text-align: right;
         font-size: 0.8rem;
         color: #333;
-      `}>{status}</div>
+      `} title={status}>{displayTime}</div>
     </li>
   )
 }
