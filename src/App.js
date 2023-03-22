@@ -1,4 +1,6 @@
 import logo from './logo.svg';
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react"
 import React, { useState } from "react"
 import './App.css';
 
@@ -26,29 +28,94 @@ const doneList = [
 // board组件
 const KanbanBoard = ({ children }) => {
   return (
-    <main className="kanban-board">
-      {children}
-    </main>
+    // <main className="kanban-board">{children}</main>
+    <main css={css`
+    /* 多余空间分配权重为10，溢出空间平均分，占用大小，看width设置 */
+      flex: 10;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      /* 上1rem 右1rem 下0 左1rem */
+      margin: 0 1rem 1rem;
+    `}>{children}</main>
   )
 }
 
 // column组件
 const KanbanColumn = ({ children, className, title }) => {
-  const combinedClassName = `kanban-column ${className}`
+  // const combinedClassName = `kanban-column ${className}`
   return (
-    <section className={combinedClassName}>
+    // <section className={combinedClassName}>
+    <section className={className} css={css`
+      display: flex;
+      flex-direction: column;
+      border: 1px solid gray;
+      border-radius: 1rem;
+      flex: 1;
+
+      & > h2 {
+        margin: 0.6rem 1rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1px solid gray;
+
+        & > button {
+          float: right;
+          border: 0;
+          border-radius: 1rem;
+          height: 2rem;
+          line-height: 1rem;
+          font-size: 1rem;
+          padding: 0.2rem 0.5rem;
+        }
+      }
+
+      & > ul {
+        /* flex 属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto */
+        /* flex:1 flex-grow:1 flex-shrink:1 flex-basis:0 */
+        /* 多余空间分配权重为1，溢出空间平均分，占用大小，看width设置 */
+        flex: 1;
+        /* 分配子项目的占用空间 */
+        flex-basis: 0;
+        margin: 1rem;
+        /* 为什么一定要设置padding为0，不设置padding为40多 */
+        padding: 0;
+        overflow: auto;
+        /* 由浏览器定夺，如果内容被修剪，就会显示滚动条 */
+      }
+    `}>
       <h2>{title}</h2>
       <ul>{children}</ul>
     </section>
   )
 }
 
+const kanbanCardStyles = css`
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid gray;
+  border-radius: 1rem;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  text-align: left;
+
+  &:hover{
+    box-shadow: 0 0.2rem 0.2rem rgba(0,0,0,0.2), inset 0 1px #fff;
+  }
+`
+const kanbanCardTitleStyles = css`
+  min-height: 3rem;
+`
+
 //  看板-卡片 组件
 const KanbanCard = ({ title, status }) => {
   return (
-    <li className="kanban-card">
-      <div className="card-title">{title}</div>
-      <div className="card-status">{status}</div>
+    <li css={kanbanCardStyles}>
+      <div css={kanbanCardTitleStyles}>{title}</div>
+      <div css={css`
+        text-align: right;
+        font-size: 0.8rem;
+        color: #333;
+      `}>{status}</div>
     </li>
   )
 }
@@ -69,21 +136,19 @@ const NewCard = ({ onSubmit }) => {
   }
 
   return (
-    <li className="kanban-card">
+    <li css={kanbanCardStyles}>
       <h3>添加新卡片</h3>
-      <div className="card-title">
+      <div css={css`
+        ${kanbanCardTitleStyles}
+        & > input[type="text"]{
+          width: 90%;
+        }
+      `}>
         <input type="text" value={title} onChange={handleChange} onKeyDown={handleKeyDown} />
       </div>
     </li>
   )
 }
-
-// const todoTitle = (
-//   <span>待处理</span>
-//   <button onClick={handleAdd} disable={showAdd}>
-//     &#8853;添加新卡片
-//   </button>
-// )
 
 function App() {
   // useState？ setShowAdd?  设置 showAdd的状态为false
