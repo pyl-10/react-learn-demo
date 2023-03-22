@@ -40,14 +40,3 @@
   /* vmin？ */
   font-size: calc(10px + 2vmin);
 }
-
-/* 看板区块 */
-.column-todo {
-  background-color: #c9af97;
-}
-.column-ongoing {
-  background-color: #ffe799;
-}
-.column-done {
-  background-color: #c0e8ba;
-}

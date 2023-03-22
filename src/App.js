@@ -42,16 +42,17 @@ const KanbanBoard = ({ children }) => {
 }
 
 // column组件
-const KanbanColumn = ({ children, className, title }) => {
+const KanbanColumn = ({ children, bgColor, title }) => {
   // const combinedClassName = `kanban-column ${className}`
   return (
     // <section className={combinedClassName}>
-    <section className={className} css={css`
+    <section css={css`
       display: flex;
       flex-direction: column;
       border: 1px solid gray;
       border-radius: 1rem;
       flex: 1;
+      background-color: ${bgColor};
 
       & > h2 {
         margin: 0.6rem 1rem;
@@ -150,6 +151,12 @@ const NewCard = ({ onSubmit }) => {
   )
 }
 
+const COLUMN_BG_COLORS = {
+  todo: "#c9af97",
+  ongoing: "#ffe799",
+  done: "#c0e8ba"
+}
+
 function App() {
   // useState？ setShowAdd?  设置 showAdd的状态为false
   // 当点击事件被触发时，改为true
@@ -170,7 +177,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <KanbanBoard>
-        <KanbanColumn className="column-todo" title={
+        <KanbanColumn bgColor={COLUMN_BG_COLORS.todo} title={
           <>
             待处理
             <button onClick={handleAdd} disable={showAdd}>
@@ -182,10 +189,10 @@ function App() {
           {/* 遍历数组中的对象，作为参数传给卡片组件 */}
           {todoList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
-        <KanbanColumn className="column-ongoing" title="进行中">
+        <KanbanColumn bgColor={COLUMN_BG_COLORS.ongoing} title="进行中">
           {ongoingList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
-        <KanbanColumn className="column-done" title="已完成">
+        <KanbanColumn bgColor={COLUMN_BG_COLORS.done} title="已完成">
           {doneList.map(props => <KanbanCard key={props.title} {...props} />)}
         </KanbanColumn>
       </KanbanBoard>
