@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import './App.css';
 
 const todoList = [
@@ -151,6 +151,10 @@ const KanbanCard = ({ title, status }) => {
 const NewCard = ({ onSubmit }) => {
   // 设置一个title的状态为“”
   const [title, setTitle] = useState("")
+  const inputElem = useRef(null)
+  useEffect(() => {
+    inputElem.current.focus()
+  }, [])
   // 获取输入的值？
   const handleChange = (evt) => {
     setTitle(evt.target.value)
@@ -171,7 +175,7 @@ const NewCard = ({ onSubmit }) => {
           width: 90%;
         }
       `}>
-        <input type="text" value={title} onChange={handleChange} onKeyDown={handleKeyDown} />
+        <input type="text" value={title} ref={inputElem} onChange={handleChange} onKeyDown={handleKeyDown} />
       </div>
     </li>
   )
